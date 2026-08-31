@@ -25,7 +25,18 @@ class Contact {
 // PENYIMPANAN DATA KONTAK (agar Kontak & Favorit selalu sinkron)
 // ==========================================================
 class ContactStore extends ChangeNotifier {
-  ContactStore._internal();
+  ContactStore._internal() {
+    // Menambahkan data dirimu secara otomatis saat aplikasi dibuka
+    _contacts.add(
+      Contact(
+        nama: 'Yuri Aulia Widyadana',
+        email: 'yuriwidyadana@gmail.com',
+        noHp: '08812653247',
+        isFavorite: true,
+      ),
+    );
+  }
+
   static final ContactStore instance = ContactStore._internal();
 
   final List<Contact> _contacts = [];
@@ -514,14 +525,12 @@ class TentangScreen extends StatelessWidget {
               child: const CircleAvatar(
                 radius: 56,
                 backgroundColor: Colors.white,
-                // Foto diambil dari assets/profil.jpg
-                // (sudah didaftarkan di pubspec.yaml)
                 backgroundImage: AssetImage('assets/profil.jpg'),
               ),
             ),
             const SizedBox(height: 20),
             const Text(
-              'Muhammad Finza Mutaali',
+              'Yuri Aulia Widyadana',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
