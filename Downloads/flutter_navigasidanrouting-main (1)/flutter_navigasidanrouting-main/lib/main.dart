@@ -12,12 +12,14 @@ class Contact {
   final String nama;
   final String email;
   final String noHp;
+  final String? kategori; // Properti baru bertipe nullable (bisa kosong/null)
   bool isFavorite;
 
   Contact({
     required this.nama,
     required this.email,
     required this.noHp,
+    this.kategori, // Bersifat opsional, tidak wajib diisi
     this.isFavorite = false,
   });
 }
@@ -65,6 +67,7 @@ class ContactStore extends ChangeNotifier {
         nama: 'Yuri Aulia Widyadana',
         email: 'yuriwidyadana@gmail.com',
         noHp: '08812653247',
+        kategori: 'Keluarga',
         isFavorite: true,
       ),
     );
@@ -489,7 +492,9 @@ class _ContactCard extends StatelessWidget {
         ),
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 4),
-          child: Text('${contact.email}\n${contact.noHp}'),
+          child: Text(
+            '${contact.email}\n${contact.noHp}\nKategori: ${contact.kategori ?? 'Tanpa kategori'}',
+          ),
         ),
         isThreeLine: true,
         trailing: IconButton(
@@ -544,12 +549,14 @@ class _TambahKontakScreenState extends State<TambahKontakScreen> {
   final _namaController = TextEditingController();
   final _emailController = TextEditingController();
   final _hpController = TextEditingController();
+  final _kategoriController = TextEditingController(); // Controller untuk kategori
 
   @override
   void dispose() {
     _namaController.dispose();
     _emailController.dispose();
     _hpController.dispose();
+    _kategoriController.dispose();
     super.dispose();
   }
 
@@ -560,6 +567,9 @@ class _TambahKontakScreenState extends State<TambahKontakScreen> {
           nama: _namaController.text.trim(),
           email: _emailController.text.trim(),
           noHp: _hpController.text.trim(),
+          kategori: _kategoriController.text.trim().isEmpty 
+              ? null 
+              : _kategoriController.text.trim(),
         ),
       );
       Navigator.pop(context);
@@ -570,7 +580,7 @@ class _TambahKontakScreenState extends State<TambahKontakScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Tambah Kontak')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(
           key: _formKey,
@@ -602,6 +612,14 @@ class _TambahKontakScreenState extends State<TambahKontakScreen> {
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
                 ],
+              ),
+              const SizedBox(height: 16),
+              // Field Input Kategori Baru (Opsional / Null Safety)
+              _buildField(
+                controller: _kategoriController,
+                label: 'Kategori (Opsional, cth: Keluarga)',
+                icon: Icons.category_outlined,
+                validator: (value) => null, // Tidak wajib diisi
               ),
               const SizedBox(height: 28),
               ElevatedButton.icon(
