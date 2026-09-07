@@ -8,7 +8,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+<<<<<<< HEAD
 import 'package:flutter_navigasidanrouting-main/main.dart';
+=======
+import 'package:flutter_navigasidanrouting/main.dart';
+>>>>>>> 217bc727e994731583916be5fa711285e1445d2e
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
